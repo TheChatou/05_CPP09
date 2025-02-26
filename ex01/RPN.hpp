@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:12:13 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/26 15:05:32 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:29:15 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ class RPN
             virtual const char* what() const throw();
     };
 
-    class WrongOperator: public std::exception
+    class WeirdLastDigits: public std::exception
     {
         public:
             virtual const char* what() const throw();

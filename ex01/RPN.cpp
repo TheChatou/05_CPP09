@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:37:01 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/26 15:25:17 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:31:41 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void				RPN::parseAndExec(char *input)
 		if (isdigit(input[i]))
 		{
 			getMyStackRef().push(input[i] - 48);
-			if (getMyStackRef().size() > 1 && (!input[i + 1] || onlySpacesLeft(input + i)))
+			if (getMyStackRef().size() > 1 && (!input[i + 1] || onlySpacesLeft(input + i + 1)))
 			{
-				getMyStackRef().pop();
+				throw WeirdLastDigits();
 			}
 		}
 		else if (input[i] == ' ')
@@ -66,7 +66,7 @@ void				RPN::parseAndExec(char *input)
 		}
 		else if (isOperand(input[i]))
 		{
-			std::cout << " top before calc with [" << input[i] << "] : " << getMyStackRef().top() << std::endl;
+			// std::cout << " top before calc with [" << input[i] << "] : " << getMyStackRef().top() << std::endl;
 			if (getMyStack().size() < 2)
 				throw NotEnoughElements();
 
@@ -85,29 +85,29 @@ void				RPN::stackAndCalc(char op)
 	float y = getTopThenPop();
 
 	getMyStackRef().push(calc(x, y, op));
-	std::cout << " top after calc : " << getMyStackRef().top() << std::endl;
+	// std::cout << " top after calc : " << getMyStackRef().top() << std::endl;
 }
 
 float				RPN::calc(float x, float y, char op)
 {
 	if (op == '+')
 	{
-		std::cout << "--> " << x << " " << op << " " << y << " = " << x + y << std::endl;  
+		// std::cout << "--> " << x << " " << op << " " << y << " = " << x + y << std::endl;  
 		return x + y;
 	}
 	else if (op == '-')
 	{
-		std::cout << "--> " << x << " " << op << " " << y << " = " << x - y << std::endl;  
+		// std::cout << "--> " << x << " " << op << " " << y << " = " << x - y << std::endl;  
 		return x - y;
 	}
 	else if (op == '/')
 	{
-		std::cout << "--> " << x << " " << op << " " << y << " = " << x / y << std::endl;  
+		// std::cout << "--> " << x << " " << op << " " << y << " = " << x / y << std::endl;  
 		return x / y;
 	}
 	else
 	{
-		std::cout << "--> " << x << " " << op << " " << y << " = " << x * y << std::endl;  
+		// std::cout << "--> " << x << " " << op << " " << y << " = " << x * y << std::endl;  
 		return x * y;
 	}
 }
@@ -135,7 +135,7 @@ bool	RPN::onlySpacesLeft(char *str)
 	int i = 0;
 	while (str[i])
 	{
-		std::cout << "[" << str[i] << "]" << std::endl;
+		// std::cout << "[" << str[i] << "]" << std::endl;
 		if (str[i] != ' ')
 			return false;
 		i++;
@@ -158,15 +158,15 @@ const char* RPN::WrongInput::what() const throw()
 
 const char* RPN::WrongInputSpaces::what() const throw()
 {
-	return (RED " [Error]" ITALIC " Chill out with the space bar ! Keep the regular RPN format !");
+	return (RED " [Error]" ITALIC " Chill out with the space bar ! Keep the regular RPN format !" RESET);
 }
 
 const char* RPN::NotEnoughElements::what() const throw()
 {
-	return (RED " [Error]" ITALIC " You need at least 2 elements to do some maths");
+	return (RED " [Error]" ITALIC " You need at least 2 elements to do some maths" RESET);
 }
 
-const char* RPN::WrongOperator::what() const throw()
+const char* RPN::WeirdLastDigits::what() const throw()
 {
-	return (RED " [Error]" ITALIC " Valid operators only : " RESET "'+', '-', '/' & '*'");
+	return (RED " [Error]" ITALIC " There's some leftover digits, and that's not conform Reverse Polish Notation .. " RESET);
 }
