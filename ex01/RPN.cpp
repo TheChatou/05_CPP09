@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chatou <chatou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:37:01 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/26 15:31:41 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:07:31 by chatou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,22 @@ float				RPN::calc(float x, float y, char op)
 //  UTILS			    ////////////////////////////////////////////////////////
 bool    RPN::notDigitOrOp(char *in)
 {
-    for (int i = 0; (in[i] >= '0' && in[i] <= '9') ||
-        in[i] == '+' || in[i] == '-' ||
-		in[i] == '/' || in[i] == '*' || in[i] == ' '; i++)
-        if (!in[i])
+    for (int i = 0; in[i]; i++)
+    {
+        if (i % 2 == 0 &&
+			(!isdigit(in[i]) &&
+			in[i] != '+' && in[i] != '-' &&
+			in[i] != '/' && in[i] != '*'))
+        {
+			std::cout << "0 [" << in[i] << "]" << std::endl;
+            return false;
+        }
+        else if (i % 2 == 1 && in[i] != ' ')
+		{
+			std::cout << "1 [" << in[i] << "]" << std::endl;
 			return false;
+		}
+    }
     return true;
 }
 
