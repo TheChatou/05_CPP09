@@ -6,7 +6,7 @@
 /*   By: chatou <chatou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:37:01 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/27 14:07:31 by chatou           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:29:35 by chatou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ std::stack<float>     &RPN::getMyStackRef()
 //  MEMBER FUNCTIONS    ////////////////////////////////////////////////////////
 void				RPN::parseAndExec(char *input)
 {
-	if (!notDigitOrOp(input))
-		throw WrongInput();
+	// if (!notDigitOrOp(input))
+	// 	throw WrongInput();
 
 	for (int i = 0; input[i]; i++)
 	{
@@ -58,6 +58,18 @@ void				RPN::parseAndExec(char *input)
 				throw WeirdLastDigits();
 			}
 		}
+		else if ((input[i] == '-' || input[i] == '+') && isdigit(input[i + 1]))
+		{
+			if (input[i] == '-')
+				getMyStackRef().push(-(input[i + 1] - 48));
+			else if (input[i] == '+')
+				getMyStackRef().push(input[i] - 48);
+			if (getMyStackRef().size() > 1 && (!input[i + 1] || onlySpacesLeft(input + i + 1)))
+			{
+				throw WeirdLastDigits();
+			}
+			i++;
+		}
 		else if (input[i] == ' ')
 		{
 			if (input[i + 1] && input[i + 1] == ' ')
@@ -66,7 +78,6 @@ void				RPN::parseAndExec(char *input)
 		}
 		else if (isOperand(input[i]))
 		{
-			// std::cout << " top before calc with [" << input[i] << "] : " << getMyStackRef().top() << std::endl;
 			if (getMyStack().size() < 2)
 				throw NotEnoughElements();
 
@@ -76,6 +87,9 @@ void				RPN::parseAndExec(char *input)
 			throw WrongInput();
 	}
 
+	if (getMyStack().size() < 1)
+		throw NotEnoughElements();
+		
 	std::cout << GREEN " RESULT : " RESET << getMyStack().top() << std::endl;
 }
 
@@ -85,31 +99,18 @@ void				RPN::stackAndCalc(char op)
 	float y = getTopThenPop();
 
 	getMyStackRef().push(calc(x, y, op));
-	// std::cout << " top after calc : " << getMyStackRef().top() << std::endl;
 }
 
 float				RPN::calc(float x, float y, char op)
 {
 	if (op == '+')
-	{
-		// std::cout << "--> " << x << " " << op << " " << y << " = " << x + y << std::endl;  
-		return x + y;
-	}
+		return y + x;
 	else if (op == '-')
-	{
-		// std::cout << "--> " << x << " " << op << " " << y << " = " << x - y << std::endl;  
-		return x - y;
-	}
+		return y - x;
 	else if (op == '/')
-	{
-		// std::cout << "--> " << x << " " << op << " " << y << " = " << x / y << std::endl;  
-		return x / y;
-	}
-	else
-	{
-		// std::cout << "--> " << x << " " << op << " " << y << " = " << x * y << std::endl;  
-		return x * y;
-	}
+		return y / x;
+	else if (op == '*')
+		return y * x;
 }
 
 //  UTILS			    ////////////////////////////////////////////////////////
@@ -122,16 +123,23 @@ bool    RPN::notDigitOrOp(char *in)
 			in[i] != '+' && in[i] != '-' &&
 			in[i] != '/' && in[i] != '*'))
         {
-			std::cout << "0 [" << in[i] << "]" << std::endl;
             return false;
         }
         else if (i % 2 == 1 && in[i] != ' ')
 		{
-			std::cout << "1 [" << in[i] << "]" << std::endl;
 			return false;
 		}
     }
     return true;
+}
+
+float	RPN::digitToPush(char *str)
+{
+	if (*str == '-' && isdigit(*str + 1) && (*str + 2 == ' ' || *str + 2 == ))
+		return -((*str + 1) - 48);
+	else if (*str == '+' && isdigit(*str + 1))
+		return (*str + 1) - 48;
+	else if ()
 }
 
 bool	RPN::isOperand(char c)
@@ -146,7 +154,6 @@ bool	RPN::onlySpacesLeft(char *str)
 	int i = 0;
 	while (str[i])
 	{
-		// std::cout << "[" << str[i] << "]" << std::endl;
 		if (str[i] != ' ')
 			return false;
 		i++;
