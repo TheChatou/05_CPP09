@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:17:11 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/03/28 16:20:35 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:29:14 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &copy)
 //  CONSTRUCTOR     ////////////////////////////////////////////////////////////
 PmergeMe::PmergeMe(int ac, char **av) : _size(ac)
 {
-    parseInput(av);
+    parseInput(av);             // PARSE
 
-    printBefore();
+    printBefore();              // PRINT
     
-    mergeInsertVector();
+    mergeInsertVector();        // MERGE-INSERT
+    mergeInsertList();          // MERGE-INSERT
 
-    mergeInsertList();
-
-    printAfter();
-    printVLTime(_tVec, _tList);
+    printAfter();               // PRINT
+    printVLTime(_tVec, _tList); // PRINT
 }
 
 //  MEMBER FUNCTIONS    ////////////////////////////////////////////////////////
@@ -64,6 +63,8 @@ void    PmergeMe::parseVector(char **av)
         int val = atoi(arg.c_str());
         if (val < 0)
             throw InvalidInteger();
+        else if (val == 0 && arg != "0")
+            throw WrongInput();
         vec.push_back(val);
     }
     
@@ -304,7 +305,7 @@ list_uint    &PmergeMe::getListRef()
 //  EXCEPTIONS		    ////////////////////////////////////////////////////////
 const char* PmergeMe::WrongInput::what() const throw()
 {
-	return (RED " [Error]" ITALIC " " RESET);
+	return (RED " [Error]" ITALIC " Wrong Input, Try again" RESET);
 }
 
 const char* PmergeMe::InvalidInteger::what() const throw()
