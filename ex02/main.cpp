@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:26:10 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/03/24 15:37:33 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:30:04 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int     wrongInput()
 {
-    std::cout << RED "Enter valid Input please" RESET << std::endl;
+    std::cout << RED BOLD "[ERROR]" RESET RED ": " ITALIC "Enter valid Input please" RESET << std::endl;
     
     return 1;
 }

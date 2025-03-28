@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:17:44 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/03/24 17:00:27 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:18:28 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <sys/time.h>
+#include <ctime>
+#include <algorithm>
+#include <iomanip>
 
 //	Some Colors	--------------------------------------------------------------
 #define RESET	"\033[0m"
@@ -42,8 +44,19 @@ class PmergeMe
         vec_uint        _myVector;
         list_uint       _myList;
 
+        std::clock_t    _tVec;
+        std::clock_t    _tList;
+
         int             _size;
-    
+
+        struct PrintElement
+        {
+            void operator()(const unsigned int& elem) const
+            {
+                std::cout << elem << " ";
+            }
+        };
+                
     public :
         //	CANONICAL FORM		////////////////////////////////////////////////////////
         PmergeMe();
@@ -56,17 +69,30 @@ class PmergeMe
 
         //  MEMBER FUNCTIONS    ////////////////////////////////////////////////////////
         void            parseInput(char **av);
-        vec_uint        parseVector(char **av);
-        list_uint       parseList(char **av);
+        void            parseVector(char **av);
+        void            parseList();
 
         void            mergeInsertVector();
         void            mergeInsertList();
-
+        void            sortPairs(vec_uint &vec);
+        void            sortPairs(list_uint &list);
+        void            insertSorted(vec_uint &sortedVec, uint val);
+        void            insertSorted(list_uint &sortedList, uint val);
+        
         void            printBefore();
         void            printAfter();
+        void            printLargeAndSmall(vec_uint &large, vec_uint &small, int i);
         void            printVLTime(double tvbeg, double tlbeg);
 
-        double          getTime();
+        bool            isVectorSorted(vec_uint &vec);
+        bool            isListSorted(list_uint &list);
+
+        //  GETTERS			    ////////////////////////////////////////////////////////
+        vec_uint        getVector() const;
+        vec_uint        &getVectorRef();
+        list_uint       getList() const;
+        list_uint       &getListRef();
+
         
         //  EXCEPTIONS		    ////////////////////////////////////////////////////////
         class WrongInput: public std::exception

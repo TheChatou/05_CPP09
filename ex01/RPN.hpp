@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:12:13 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/26 15:29:15 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:27:10 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ class RPN
         void                stackAndCalc(char op);
         float               calc(float x, float y, char op);
 
+//  UTILS			    ////////////////////////////////////////////////////////
         bool                notDigitOrOp(char *in);
         bool                isOperand(char c);
         bool                onlySpacesLeft(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chatou <chatou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:37:01 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/03/22 19:29:35 by chatou           ###   ########.fr       */
+/*   Updated: 2025/03/25 09:24:51 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,21 @@ std::stack<float>     &RPN::getMyStackRef()
 //  MEMBER FUNCTIONS    ////////////////////////////////////////////////////////
 void				RPN::parseAndExec(char *input)
 {
-	// if (!notDigitOrOp(input))
-	// 	throw WrongInput();
+	unsigned int	size = 0;
+	
+	if (!notDigitOrOp(input))
+		throw WrongInput();
 
 	for (int i = 0; input[i]; i++)
 	{
 		if (isdigit(input[i]))
 		{
 			getMyStackRef().push(input[i] - 48);
+			size++;
 			if (getMyStackRef().size() > 1 && (!input[i + 1] || onlySpacesLeft(input + i + 1)))
 			{
 				throw WeirdLastDigits();
 			}
-		}
-		else if ((input[i] == '-' || input[i] == '+') && isdigit(input[i + 1]))
-		{
-			if (input[i] == '-')
-				getMyStackRef().push(-(input[i + 1] - 48));
-			else if (input[i] == '+')
-				getMyStackRef().push(input[i] - 48);
-			if (getMyStackRef().size() > 1 && (!input[i + 1] || onlySpacesLeft(input + i + 1)))
-			{
-				throw WeirdLastDigits();
-			}
-			i++;
 		}
 		else if (input[i] == ' ')
 		{
@@ -87,7 +78,7 @@ void				RPN::parseAndExec(char *input)
 			throw WrongInput();
 	}
 
-	if (getMyStack().size() < 1)
+	if (size < 2)
 		throw NotEnoughElements();
 		
 	std::cout << GREEN " RESULT : " RESET << getMyStack().top() << std::endl;
@@ -109,7 +100,7 @@ float				RPN::calc(float x, float y, char op)
 		return y - x;
 	else if (op == '/')
 		return y / x;
-	else if (op == '*')
+	else
 		return y * x;
 }
 
@@ -131,15 +122,6 @@ bool    RPN::notDigitOrOp(char *in)
 		}
     }
     return true;
-}
-
-float	RPN::digitToPush(char *str)
-{
-	if (*str == '-' && isdigit(*str + 1) && (*str + 2 == ' ' || *str + 2 == ))
-		return -((*str + 1) - 48);
-	else if (*str == '+' && isdigit(*str + 1))
-		return (*str + 1) - 48;
-	else if ()
 }
 
 bool	RPN::isOperand(char c)
@@ -181,7 +163,7 @@ const char* RPN::WrongInputSpaces::what() const throw()
 
 const char* RPN::NotEnoughElements::what() const throw()
 {
-	return (RED " [Error]" ITALIC " You need at least 2 elements to do some maths" RESET);
+	return (RED " [Error]" ITALIC " You need at least 2 elements before an operand to do some maths" RESET);
 }
 
 const char* RPN::WeirdLastDigits::what() const throw()
