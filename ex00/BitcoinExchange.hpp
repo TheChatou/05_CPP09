@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:10:07 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/19 15:43:42 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:03:49 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ class BtcMap
 		bool			isFloat(const std::string &str) const;
 		void			welcome() const;
 		void			goodbye() const;
-		void			initTab() const;
+		void			printTab() const;
 
 	//  EXCEPTIONS		    ////////////////////////////////////////////////////////
 		class WrongDate: public std::exception

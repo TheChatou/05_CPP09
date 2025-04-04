@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:02 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/19 15:48:32 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:05:01 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	creatingInputBase(char *input, BtcMap &myData)
 		return 1;
 	}
 
+	myData.welcome();
+	myData.printTab();
 	std::string		line;
 	if (std::getline(is, line))
 	{
@@ -61,8 +63,7 @@ int	creatingInputBase(char *input, BtcMap &myData)
 // Si pas de second parametre, mode par defaut
 int	creatingDataBase(BtcMap &myData)
 {
-	myData.welcome();
-	myData.initTab();
+	std::cout << std::endl << ITALIC GRAY "           ---  Welcome to the BitcoinExchanger Program --- " RESET << std::endl << std::endl;
 	
 	std::ifstream	is(DATA_CSV);
 	if (!is.is_open())

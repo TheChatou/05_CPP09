@@ -6,7 +6,7 @@
 /*   By: fcoullou <fcoullou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:15:18 by fcoullou          #+#    #+#             */
-/*   Updated: 2025/02/25 14:43:09 by fcoullou         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:11:36 by fcoullou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	BtcMap::checkDate(std::string &date) const
 	{
 		throw WrongDate();
 	}
-	else if (date > "2025-02-20")
+	else if (date > "2025-03-31")
 	{
 		throw FutureDate();
 	}
@@ -257,7 +257,6 @@ bool	BtcMap::isFloat(const std::string& str) const
 //	UTILS de prints
 void	BtcMap::welcome() const
 {
-	std::cout << std::endl << ITALIC GRAY "           ---  Welcome to the BitcoinExchanger Program --- " RESET << std::endl << std::endl;
 	std::cout << UNDERLINED "\tTransaction history: " RESET << std::endl; 
 	std::cout << " ─────────────────────────────────────────────────────────────────────" << std::endl;
 }
@@ -265,10 +264,10 @@ void	BtcMap::welcome() const
 void	BtcMap::goodbye() const
 {
 	std::cout << " ─────────────────────────────────────────────────────────────────────" << std::endl;
-	std::cout << ITALIC GRAY "           ---  Thank you for using BitcoinExchanger  --- " RESET << std::endl;
+	std::cout << ITALIC GRAY "           ---  Thank you for using BitcoinExchanger  --- " RESET << std::endl << std::endl;
 }
 
-void	BtcMap::initTab() const
+void	BtcMap::printTab() const
 {
 	std::cout << "│ " << BOLD << std::setw(15) << std::right << "Date" RESET
 			<< " │ " << BOLD << std::setw(13) << "Bitcoins" RESET
